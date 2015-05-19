@@ -131,6 +131,7 @@ enchant.TCard = {};
 		var asset = enchant.Core.instance.assets[enchant.TCard.CARDS];
 		var card = new Sprite(48, 48);
 		card.image = new Surface(96, 48);
+		card.data = num;
 		if (num === TCard.JOKER) {
 			card.image.draw(asset,  0, 192, 48, 48, 0, 0, 48, 48);
             card.image.draw(asset, 48, 192, 48, 48, 48, 0, 48, 48);

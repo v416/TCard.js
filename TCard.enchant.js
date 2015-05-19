@@ -4,6 +4,8 @@ enchant.TCard = {};
     enchant.TCard.CARDS = "tcard_cards";
 	enchant.TCard.OPEN  = 0;
 	enchant.TCard.CLOSE = 1;
+	enchant.TCard.TURN_END = "turn_end";
+	enchant.TCard.TURN_TURM = 3;
 	// 画像設定
 	enchant.TCard.setPack = function() {
 		var assets = enchant.Core.instance.assets;
@@ -132,6 +134,20 @@ enchant.TCard = {};
 		var card = new Sprite(48, 48);
 		card.image = new Surface(96, 48);
 		card.data = num;
+		card.turn = function() {
+			var self = this;
+			var scaleX = this.scaleX;
+			var scaleY = this.scaleY;
+			this.tl.scaleTo(0, scaleY, enchant.TCard.TURN_TURM).then(function() {
+				self.frame = +!self.frame;
+			}).scaleTo(scaleX, scaleY, enchant.TCard.TURN_TURM).then(function() {
+				if (self.parentNode) {
+					var e = new Event(enchant.TCard.TURN_END);
+					e.data = self.data;
+					self.parentNode.dispatchEvent(e);
+				}
+			});
+		};
 		if (num === TCard.JOKER) {
 			card.image.draw(asset,  0, 192, 48, 48, 0, 0, 48, 48);
             card.image.draw(asset, 48, 192, 48, 48, 48, 0, 48, 48);
